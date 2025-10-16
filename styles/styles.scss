@@ -1,0 +1,120 @@
+﻿@use 'mixins' as *;
+
+// 🎨 Переменные
+$bg-light: #f5f7fa;
+$card-light: #ffffff;
+$text-light: #111827;
+$muted-light: #6b7280;
+$accent: #2563eb;
+
+$bg-dark: #0b1220;
+$card-dark: #0f1724;
+$text-dark: #e6eef8;
+$muted-dark: #9aa6bb;
+
+// 🧱 Базовые стили
+* { box-sizing: border-box; }
+
+body {
+  font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+  margin: 0;
+  background: $bg-light;
+  color: $text-light;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; // 👈 добавляем это
+  min-height: 100vh;
+  padding: 1.5rem;
+  @include transition(background, color);
+}
+
+
+// 🌙 Тёмная тема
+body.dark {
+  background: $bg-dark;
+  color: $text-dark;
+}
+
+// 🔝 Верхняя панель
+.topbar {
+  width: 100%;
+  max-width: 720px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+// 👤 Профиль
+.profile {
+  width: 100%;
+  max-width: 720px;
+  @include flex-center();
+
+  &__card {
+    @include card($card-light, 0 8px 24px rgba(16,24,40,0.08));
+    @include flex-center(column, 1.25rem);
+  }
+
+  &__avatar {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid rgba(0,0,0,0.06);
+    @include transition(transform);
+    &:hover { transform: scale(1.03); }
+  }
+
+  &__name {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+
+  &__action {
+    width: 100%;
+    max-width: 240px;
+  }
+}
+
+// 🔘 Кнопки
+.btn {
+  padding: .6rem 1rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  background: $accent;
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 6px 14px rgba(#2563eb, .12);
+  @include transition(transform, box-shadow, opacity);
+
+  &:active { transform: translateY(1px); }
+  &:disabled { opacity: .6; cursor: not-allowed; }
+
+  &--ghost {
+    background: transparent;
+    border: 1px solid rgba(16,24,40,0.06);
+    color: $text-light;
+  }
+}
+
+// 🌗 Тёмная тема (модификации)
+body.dark {
+  .profile__card {
+    @include card($card-dark, 0 6px 18px rgba(2,6,23,0.6));
+  }
+
+  .btn--ghost { border-color: rgba(255,255,255,0.12); color: $text-dark; }
+}
+
+// 📱 Адаптивность
+@include respond(md) {
+  .profile__avatar { width: 140px; height: 140px; }
+  .profile__name { font-size: 1.25rem; }
+}
+
+@include respond(sm) {
+  .profile__avatar { width: 112px; height: 112px; }
+  .profile__name { font-size: 1.1rem; }
+  .btn { font-size: .95rem; padding: .5rem .8rem; }
+}
